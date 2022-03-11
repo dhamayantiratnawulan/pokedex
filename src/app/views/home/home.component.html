@@ -1,0 +1,32 @@
+<div class="container">
+  <div>
+    Pokedex ({{countPokemon}})
+  </div>
+  <div class="row row-cols-4">
+    <div class="col" *ngFor="let item of pokemon">
+      <div [class]="'card-pokemon '+'bg-light--'+(item.types[0]).type.name" (click)="detail(item.name)">
+        <div>
+          <div style="display: flex; justify-content: center;">
+            <img src={{getImage(item.id)}} class="image" />
+          </div>
+        </div>
+        <div>
+          <div class="number">#{{item.id.padStart(4,0)}}</div>
+          <div class="name">{{item.name}}</div>
+          <div style="display: flex;">
+            <div *ngFor="let types of item.types">
+              <div [class]="'type '+'bg--'+types.type.name">
+                {{types.type.name}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="loading">
+      <div class="col" *ngFor="let item of shimmersCount">
+        <div class="card-pokemon shimmer"></div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,389 @@
+<div class="container" *ngIf="pokemon">
+  <div class="center-box-detail">
+    <div class="box" *ngIf="!loading">
+      <div style="display: flex;">
+        <div class="box-detail">
+          <div style="margin-bottom: 1rem;">
+            <div class="mb-2">
+              <fa-icon [icon]="faArrowLeft" style="cursor: pointer;" (click)="back()"></fa-icon>
+            </div>
+            <div class="number">#{{(pokemon.id).toString().padStart(4,0)}}</div>
+            <div class="name">{{pokemon.name}}</div>
+            <div style="display: flex;">
+              <div *ngFor="let types of pokemon.types">
+                <div [class]="'type '+'bg--'+types.type.name">
+                  {{types.type.name}}
+                </div>
+              </div>
+            </div>
+            <div style="margin-top: 2rem;">
+              <div class="title">About</div>
+              <div class="mb-2">
+                {{species.flavor_text_entries[0].flavor_text}}
+              </div>
+              <div class="about">
+                <div class="row mb-2">
+                  <div class="col">
+                    <div class="content">
+                      {{pokemon.height/10}} m
+                    </div>
+                    <div class="label">
+                      Height
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="content">
+                      {{pokemon.weight/10}} kg
+                    </div>
+                    <div class="label">
+                      Weight
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col">
+                    <div class="content">
+                      {{joinAbility(pokemon.abilities)}}
+                    </div>
+                    <div class="label">
+                      Abilities
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="content">
+                      <div style="display: flex; justify-content: space-evenly;">
+                        <div style="display: flex;">
+                          <div class="me-2">
+                            <fa-icon [icon]="faMars" style="color: #3182ce;"></fa-icon>
+                          </div>
+                          <div>
+                            {{male}} %
+                          </div>
+                        </div>
+                        <div style="display: flex;">
+                          <div class="me-2">
+                            <fa-icon [icon]="faVenus" style="color: #d53f8c"></fa-icon>
+                          </div>
+                          <div>
+                            {{female}} %
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="label">
+                      Gender
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col">
+                    <div class="content">
+                      {{joinEgg(species.egg_groups)}}
+                    </div>
+                    <div class="label">
+                      Egg Groups
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="content">
+                      {{species.hatch_counter}}
+                    </div>
+                    <div class="label">
+                      Gender
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div [class]="'box-img '+'bg-light--'+(pokemon.types[0]).type.name">
+          <div class="triangle"></div>
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <img src={{getImage(pokemon.id)}} class="image" />
+          </div>
+        </div>
+      </div>
+      <div class="mt-2 stats">
+        <div class="title">Basic Stats</div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              HP
+            </div>
+            <div>
+              {{pokemon.stats[0].base_stat}}
+            </div>
+          </div>
+          <div class="progress">
+            <div [class]="'progress-bar '+'bg-light--'+(pokemon.types[0]).type.name" role="progressbar"
+              [style.width]="(pokemon.stats[0].base_stat/100)*100 + '%'"
+              [attr.aria-valuenow]="pokemon.stats[0].base_stat" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              Attack
+            </div>
+            <div>
+              {{pokemon.stats[1].base_stat}}
+            </div>
+          </div>
+          <div class="progress">
+            <div [class]="'progress-bar '+'bg-light--'+(pokemon.types[0]).type.name" role="progressbar"
+              [style.width]="(pokemon.stats[1].base_stat/100)*100 + '%'"
+              [attr.aria-valuenow]="pokemon.stats[1].base_stat" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              Defense
+            </div>
+            <div>
+              {{pokemon.stats[2].base_stat}}
+            </div>
+          </div>
+          <div class="progress">
+            <div [class]="'progress-bar '+'bg-light--'+(pokemon.types[0]).type.name" role="progressbar"
+              [style.width]="(pokemon.stats[2].base_stat/100)*100 + '%'"
+              [attr.aria-valuenow]="pokemon.stats[2].base_stat" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              Sp. Attack
+            </div>
+            <div>
+              {{pokemon.stats[3].base_stat}}
+            </div>
+          </div>
+          <div class="progress">
+            <div [class]="'progress-bar '+'bg-light--'+(pokemon.types[0]).type.name" role="progressbar"
+              [style.width]="(pokemon.stats[3].base_stat/100)*100 + '%'"
+              [attr.aria-valuenow]="pokemon.stats[3].base_stat" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              Sp. Defense
+            </div>
+            <div>
+              {{pokemon.stats[4].base_stat}}
+            </div>
+          </div>
+          <div class="progress">
+            <div [class]="'progress-bar '+'bg-light--'+(pokemon.types[0]).type.name" role="progressbar"
+              [style.width]="(pokemon.stats[4].base_stat/100)*100 + '%'"
+              [attr.aria-valuenow]="pokemon.stats[4].base_stat" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              Speed
+            </div>
+            <div>
+              {{pokemon.stats[5].base_stat}}
+            </div>
+          </div>
+          <div class="progress">
+            <div [class]="'progress-bar '+'bg-light--'+(pokemon.types[0]).type.name" role="progressbar"
+              [style.width]="(pokemon.stats[5].base_stat/100)*100 + '%'"
+              [attr.aria-valuenow]="pokemon.stats[5].base_stat" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 stats">
+        <div class="title mb-2">Evolution</div>
+        <div style="display: flex; justify-content: space-between;">
+          <div *ngFor="let item of arrayEvolution; let i = index">
+            <div style="display: flex; align-items: center;">
+              <div [class]="'evo-box '+'bg-light--'+(pokemon.types[0]).type.name" (click)="detail(item.name)">
+                <div style="display: flex; justify-content: center; height: 180px;">
+                  <img [src]="getImage(item.url.split('/')[6])" class="image" />
+                </div>
+                <div style="text-align: center;">
+                  {{item.name}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box" *ngIf="loading">
+      <div style="display: flex;">
+        <div class="box-detail">
+          <div style="margin-bottom: 1rem;">
+            <div class="mb-2">
+              <fa-icon [icon]="faArrowLeft" style="cursor: pointer;" (click)="back()"></fa-icon>
+            </div>
+            <div class="number shimmer2">&nbsp;</div>
+            <div class="name shimmer2">&nbsp;</div>
+            <div style="display: flex;">&nbsp;
+            </div>
+            <div style="margin-top: 2rem;">
+              <div class="title">About</div>
+              <div class="mb-2 shimmer2">
+                &nbsp;
+              </div>
+              <div class="about">
+                <div class="row mb-2">
+                  <div class="col">
+                    <div class="content shimmer2">
+                      &nbsp;
+                    </div>
+                    <div class="label">
+                      Height
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="content shimmer2">
+                      &nbsp;
+                    </div>
+                    <div class="label">
+                      Weight
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col">
+                    <div class="content shimmer2">
+                      &nbsp;
+                    </div>
+                    <div class="label">
+                      Abilities
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="content shimmer2">
+                      &nbsp;
+                    </div>
+                    <div class="label">
+                      Gender
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col">
+                    <div class="content shimmer2">&nbsp;
+                    </div>
+                    <div class="label">
+                      Egg Groups
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="content shimmer2">&nbsp;
+                    </div>
+                    <div class="label">
+                      Gender
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box-img shimmer2">
+          <div class="triangle"></div>
+          <div style="display: flex; justify-content: center; align-items: center;">&nbsp;
+          </div>
+        </div>
+      </div>
+      <div class="mt-2 stats">
+        <div class="title">Basic Stats</div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              HP
+            </div>
+            <div>&nbsp;
+            </div>
+          </div>
+          <div class="shimmer2">
+            &nbsp;
+          </div>
+        </div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              Attack
+            </div>
+            <div>&nbsp;
+            </div>
+          </div>
+          <div class="shimmer2">
+            &nbsp;
+          </div>
+        </div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              Defense
+            </div>
+            <div>&nbsp;
+            </div>
+          </div>
+          <div class="shimmer2">
+            &nbsp;
+          </div>
+        </div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              Sp. Attack
+            </div>
+            <div>&nbsp;
+            </div>
+          </div>
+          <div class="shimmer2">
+            &nbsp;
+          </div>
+        </div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              Sp. Defense
+            </div>
+            <div>&nbsp;
+            </div>
+          </div>
+          <div class="shimmer2">
+            &nbsp;
+          </div>
+        </div>
+        <div class="mb-2">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              Speed
+            </div>
+            <div>&nbsp;
+            </div>
+          </div>
+          <div class="shimmer2">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+    <div class="mt-3 stats">
+      <div class="title mb-2">Evolution</div>
+      <div style="display: flex; justify-content: space-between;">
+        <div *ngFor="let item of arrayEvolution; let i = index">
+          <div style="display: flex; align-items: center;">
+            <div class="evo-box shimmer2">
+              <div style="display: flex; justify-content: center; height: 180px;">
+                &nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
